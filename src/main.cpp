@@ -25,12 +25,17 @@ int main(){
   SDL_Event event;
 
   bool cont = true;
+  int n = 0;
   while(cont){
     while(SDL_PollEvent( &event ))
       if(event.type == SDL_QUIT) cont = false;
 
-    drawTile(&gfx, 16, 16, 1);
+    RenderObj r {n, 0, 16, 16, true};
+    renderObj(&gfx, &r);
+
     SDL_Delay(15);
     SDL_Flip(gfx.screen);
+    SDL_FillRect(gfx.screen, 0, 0);
+    n = (n + 4) % 1024;
   }
 }
