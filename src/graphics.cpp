@@ -65,3 +65,131 @@ void renderObj(GfxData* g, RenderObj* r){
 	else
 		drawTile    (g, r->x, r->y, r->tile);
 }
+
+
+
+
+
+
+
+
+
+
+inline int  heapParent(int index){
+	return (index - 2) / 2;
+}
+
+inline int  heapLeft  (int index){
+	return (index * 2) + 1;
+}
+
+inline int  heapRight (int index){
+	return (index * 2) + 2;
+}
+
+inline void heapSwap  (RenderHeap* h, int a, int b){
+	RenderObj temp = h->heap[a];
+	h->heap[a]     = h->heap[b];
+	h->heap[b]     = temp;
+}
+
+
+
+
+
+
+
+
+
+
+void bubbleDown (RenderHeap* h, int index){
+	int left  = heapLeft (index);
+	int right = heapRight(index);
+
+	int targetDepth = h->heap[index].depth;
+	RenderObj temp;
+
+	if(left > h->top){
+		if((right <= h->top) && (h->heap[right].depth < targetDepth)){
+			// Swap
+			heapSwap  (h, right, index);
+			bubbleDown(h, right);
+		}
+	}else if(right > h->top){
+		if((left <= h->top) && (h->heap[left].depth < targetDepth)){
+			// Swap
+			heapSwap  (h, left, index);
+			bubbleDown(h, left);
+		}
+	}else if((h->heap[left].depth < h->heap[right].depth)
+			  && (h->heap[left].depth  < targetDepth)){
+		// Swap
+		heapSwap  (h, left, index);
+		bubbleDown(h, left);
+	}else if (h->heap[right].depth < targetDepth){
+		// Swap
+		heapSwap  (h, right, index);
+		bubbleDown(h, right);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+void bubbleUp (RenderHeap* h, int index){
+	if(index <= 0) return;
+
+	int parent = heapParent(index);
+	if(h->heap[parent].depth > h->heap[index].depth){
+		heapSwap(h, parent, index);
+		bubbleUp(h, parent);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+int pushHeap(RenderHeap* h, RenderObj obj){
+	if(h->top >= 4096) return -1;
+
+	h->top++;
+	h->heap[h->top] = obj;
+	bubbleUp(h, h->top);
+
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+RenderObj popHeap(RenderHeap* h){
+
+	RenderObj ret;
+	if(h->top < 0) return ret;
+
+	ret = h->heap[0];
+	if(h->top > 0){
+		heapSwap(h, 0, h->top);
+		h->top--;
+		bubbleDown(h, 0);
+	}
+	return ret;
+}
