@@ -76,7 +76,7 @@ void renderObj(GfxData* g, RenderObj* r){
 
 
 inline int  heapParent(int index){
-	return (index - 2) / 2;
+	return (index - 1) / 2;
 }
 
 inline int  heapLeft  (int index){
@@ -107,29 +107,23 @@ void bubbleDown (RenderHeap* h, int index){
 	int right = heapRight(index);
 
 	int targetDepth = h->heap[index].depth;
-	RenderObj temp;
 
-	if(left > h->top){
-		if((right <= h->top) && (h->heap[right].depth < targetDepth)){
-			// Swap
-			heapSwap  (h, right, index);
-			bubbleDown(h, right);
-		}
-	}else if(right > h->top){
-		if((left <= h->top) && (h->heap[left].depth < targetDepth)){
-			// Swap
-			heapSwap  (h, left, index);
+	int leftval  = (left  > h->top)? 0x7FFFFFFF : (h->heap[left] .depth);
+	int rightval = (right > h->top)? 0x7FFFFFFF : (h->heap[right].depth);
+	int indexval = h->heap[index].depth;
+
+	if(leftval < rightval){
+		// Try left swap
+		if(leftval < indexval){
+			heapSwap(h, index, left);
 			bubbleDown(h, left);
 		}
-	}else if((h->heap[left].depth < h->heap[right].depth)
-			  && (h->heap[left].depth  < targetDepth)){
-		// Swap
-		heapSwap  (h, left, index);
-		bubbleDown(h, left);
-	}else if (h->heap[right].depth < targetDepth){
-		// Swap
-		heapSwap  (h, right, index);
-		bubbleDown(h, right);
+	}else{
+		// Try right swap
+		if(rightval < indexval){
+			heapSwap(h, index, right);
+			bubbleDown(h, right);
+		}
 	}
 }
 
@@ -161,7 +155,7 @@ void bubbleUp (RenderHeap* h, int index){
 
 
 
-int pushHeap(RenderHeap* h, RenderObj obj){
+int pushHeap(RenderObj obj, RenderHeap* h){
 	if(h->top >= 4096) return -1;
 
 	h->top++;
@@ -192,4 +186,39 @@ RenderObj popHeap(RenderHeap* h){
 		bubbleDown(h, 0);
 	}
 	return ret;
+}
+
+
+
+
+
+
+
+
+
+
+void renderHeap(GfxData* g, RenderHeap* h){
+	int top = h->top + 1;
+	for(int i = 0; i < top; i++){
+		RenderObj obj = popHeap(h);
+		renderObj(g, &obj);
+	}
+	h->top = -1;
+}
+
+
+
+
+
+
+
+
+
+
+void showHeap(RenderHeap* h){
+	printf("\nSize: %i. Contents:\n", h->top+1);
+	for(int i = 0; i <= h->top; i++){
+		RenderObj obj = h->heap[i];
+		printf("%i %i %i %i\n", obj.tile, obj.depth, obj.x, obj.y);
+	}
 }

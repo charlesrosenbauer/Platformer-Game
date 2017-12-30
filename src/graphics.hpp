@@ -15,8 +15,8 @@
 
 
 struct RenderObj{
-  int tile = 0, depth = 0, x = 0, y = 0;
-  bool isParticle = false;
+  int tile, depth, x, y;
+  bool isParticle;
 };
 
 
@@ -48,7 +48,8 @@ void drawParticle(GfxData*, int, int, int);
 void renderObj   (GfxData*, RenderObj*);
 int  pushHeap    (RenderObj,RenderHeap*);
 RenderObj popHeap(RenderHeap*);
-
+void renderHeap  (GfxData*, RenderHeap*);
+void showHeap    (RenderHeap*);
 
 
 
