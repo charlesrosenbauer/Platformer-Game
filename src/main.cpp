@@ -1,6 +1,7 @@
 #include <SDL/SDL.h>
 #include "types.hpp"
 #include "graphics.hpp"
+#include "events.hpp"
 
 
 
@@ -22,13 +23,15 @@ int main(){
   gfx.font   = SDL_LoadBMP("data/font.bmp");
   SDL_SetColorKey(gfx.font , SDL_SRCCOLORKEY, 0xFFFFFF);
 
-  SDL_Event event;
+  EventBuffer events;
   RenderHeap heap;
 
   bool cont = true;
   while(cont){
-    while(SDL_PollEvent( &event ))
-      if(event.type == SDL_QUIT) cont = false;
+    getEvents(&events);
+    for(int i = 0; i < events.eventNum; i++){
+      if(events.events[i].type == SDL_QUIT) cont = false;
+    }
 
     RenderObj obj0 {1, 8, 16, 16, false};
     RenderObj obj1 {1, 7, 32, 32, false};
