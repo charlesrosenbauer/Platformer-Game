@@ -30,7 +30,9 @@ int main(){
   while(cont){
     getEvents(&events);
     for(int i = 0; i < events.eventNum; i++){
-      if(events.events[i].type == SDL_QUIT) cont = false;
+      if((events.events[i].eventType     == SDLEVENT)
+       &&(events.events[i].sdlevent.type == SDL_QUIT))
+          cont = false;
     }
 
     RenderObj obj0 {1, 8, 16, 16, false};

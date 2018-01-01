@@ -13,8 +13,43 @@
 
 
 
+
+struct GameEvent{
+  int data;     // Add more later
+};
+
+
+
+
+
+
+
+
+
+
+enum EventType{
+  SDLEVENT, GAMEEVENT
+};
+
+struct Event{
+  union{
+    SDL_Event sdlevent;
+    GameEvent gameevent;
+  };
+  EventType eventType;
+};
+
+
+
+
+
+
+
+
+
+
 struct EventBuffer{
-  SDL_Event events[1024];
+  Event events[1024];
   int eventNum;
 };
 
