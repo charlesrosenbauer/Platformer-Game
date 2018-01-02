@@ -4,6 +4,7 @@
 
 #include "types.hpp"
 #include "graphics.hpp"
+#include "events.hpp"
 
 
 
@@ -47,7 +48,7 @@ struct Entity{
 
 
 
-
+void updateEntity(Entity*, EventBuffer*);
 
 
 
