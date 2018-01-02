@@ -16,16 +16,16 @@ void updatePlayer(Object* e, EventBuffer* events){
     if(events->events[i].eventType     == SDLEVENT){
       if(events->events[i].sdlevent.type == SDL_KEYDOWN){
         switch(events->events[i].sdlevent.key.keysym.sym){
-          case SDLK_UP    : ent->dy = -1; break;
-          case SDLK_DOWN  : ent->dy =  1; break;
+          case SDLK_UP    : ent->dy = (ent->jmpnum < 2)? -3 : ent->dy; break;
+          //case SDLK_DOWN  : ent->dy =  1; break;
           case SDLK_RIGHT : ent->dx =  1; break;
           case SDLK_LEFT  : ent->dx = -1; break;
           default: break;
         }
       }else if(events->events[i].sdlevent.type == SDL_KEYUP){
         switch(events->events[i].sdlevent.key.keysym.sym){
-          case SDLK_UP    : ent->dy = (ent->dy < 0)? 0 : ent->dy; break;
-          case SDLK_DOWN  : ent->dy = (ent->dy > 0)? 0 : ent->dy; break;
+          case SDLK_UP    : ent->jmpnum++; break;
+          //case SDLK_DOWN  : ent->dy = (ent->dy > 0)? 0 : ent->dy; break;
           case SDLK_RIGHT : ent->dx = (ent->dx > 0)? 0 : ent->dx; break;
           case SDLK_LEFT  : ent->dx = (ent->dx < 0)? 0 : ent->dx; break;
           default: break;
@@ -33,8 +33,9 @@ void updatePlayer(Object* e, EventBuffer* events){
       }
     }
   }
-  ent->x += ent->dx;
-  ent->y += ent->dy;
+  ent->dy += 0.05;
+  ent->x  += ent->dx;
+  ent->y  += ent->dy;
 }
 
 
