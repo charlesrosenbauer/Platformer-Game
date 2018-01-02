@@ -30,7 +30,7 @@ int main(){
   EventBuffer events;
   RenderHeap heap;
 
-  Entity playerpos {0, 0, 0, 0, 0, NULL};
+  Entity playerpos {0, 0, 0, 0, 0, 1, NULL};
   Object player {PLAYER, &playerpos, 0};
 
   bool cont = true;

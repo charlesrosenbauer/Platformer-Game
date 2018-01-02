@@ -35,7 +35,7 @@ struct Object{
 
 
 struct Entity{
-  float x, y, dx, dy, jmpnum;
+  float x, y, dx, dy, jmpnum, boost;
   Object* parent;
 };
 
