@@ -48,7 +48,7 @@ struct Entity{
 
 
 
-void updateEntity(Entity*, EventBuffer*);
+void updateObject(Object*, EventBuffer*, RenderHeap*);
 
 
 

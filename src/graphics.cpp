@@ -59,11 +59,14 @@ void drawParticle(GfxData* g, int x, int y, int t){
 
 
 //This will be called from a function operating on a RenderObj heap
-void renderObj(GfxData* g, RenderObj* r){
+void renderObj(GfxData* g, RenderObj* r, int offsetX, int offsetY){
+	int offx = offsetX - (_GLOBAL_FRAME_WIDTH__ / 2);
+	int offy = offsetY - (_GLOBAL_FRAME_HEIGHT_ / 2);
+
 	if(r->isParticle)
-		drawParticle(g, r->x, r->y, r->tile);
+		drawParticle(g, r->x - offx, r->y - offy, r->tile);
 	else
-		drawTile    (g, r->x, r->y, r->tile);
+		drawTile    (g, r->x - offx, r->y - offy, r->tile);
 }
 
 
@@ -201,7 +204,7 @@ void renderHeap(GfxData* g, RenderHeap* h){
 	int top = h->top + 1;
 	for(int i = 0; i < top; i++){
 		RenderObj obj = popHeap(h);
-		renderObj(g, &obj);
+		renderObj(g, &obj, h->offsetX, h->offsetY);
 	}
 	h->top = -1;
 }

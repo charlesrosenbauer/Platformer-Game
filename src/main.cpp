@@ -2,6 +2,7 @@
 #include "types.hpp"
 #include "graphics.hpp"
 #include "events.hpp"
+#include "entity.hpp"
 
 
 
@@ -17,7 +18,10 @@ int main(){
   SDL_WM_SetCaption("Platform Game", 0);
   GfxData gfx;
 
-  gfx.screen = SDL_SetVideoMode(640, 360, 32, 0);
+  gfx.screen = SDL_SetVideoMode(_GLOBAL_FRAME_WIDTH__, _GLOBAL_FRAME_HEIGHT_, 32, 0);
+
+  printf("%i %i\n", _GLOBAL_FRAME_WIDTH__, _GLOBAL_FRAME_HEIGHT_);
+
   gfx.tiles  = SDL_LoadBMP("data/tileset.bmp");
   SDL_SetColorKey(gfx.tiles, SDL_SRCCOLORKEY, 0xFFFFFF);
   gfx.font   = SDL_LoadBMP("data/font.bmp");
@@ -25,6 +29,9 @@ int main(){
 
   EventBuffer events;
   RenderHeap heap;
+
+  Entity playerpos {0, 0, 0, 0, NULL};
+  Object player {PLAYER, &playerpos, 0};
 
   bool cont = true;
   while(cont){
@@ -52,6 +59,8 @@ int main(){
     pushHeap(obj5, &heap);
     pushHeap(obj6, &heap);
     pushHeap(obj7, &heap);
+
+    updateObject(&player, &events, &heap);
 
     renderHeap(&gfx, &heap);
 
