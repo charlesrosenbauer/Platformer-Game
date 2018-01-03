@@ -108,7 +108,7 @@ struct ObjectVector{
 
 
 
-void updateObject(Object*, EventBuffer*, RenderHeap*);
+void updateObject(ObjectVector*, EventBuffer*, RenderHeap*);
 int  createPlayer(ObjectVector*);
 void removeObject(ObjectVector*, int);
 

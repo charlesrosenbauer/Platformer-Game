@@ -28,8 +28,8 @@ int main(){
   EventBuffer events;
   RenderHeap heap;
 
-  //Entity playerpos {0, 0, 0, 0, 0, 1, NULL};
-  //Object player {PLAYER, &playerpos, 0};
+  ObjectVector objects;
+  createPlayer(&objects);
 
   bool cont = true;
   while(cont){
@@ -58,8 +58,7 @@ int main(){
     pushHeap(obj6, &heap);
     pushHeap(obj7, &heap);
 
-    //updateObject(&player, &events, &heap);
-
+    updateObject(&objects, &events, &heap);
     renderHeap(&gfx, &heap);
 
     SDL_Delay(15);

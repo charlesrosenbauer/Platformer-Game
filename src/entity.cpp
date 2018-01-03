@@ -133,7 +133,7 @@ void removeObject(ObjectVector* objs, int oIndex){
 int createPlayer(ObjectVector* objs){
   Object player;
   player.type = PLAYER;
-  player.data.plyd = PlayerData{0, 0, 0, 0};
+  player.data.plyd = PlayerData{0, 0, 1, 0};
   objs->objects.push_back(player);
 
   int objIndex = objs->objects.size()-1;
