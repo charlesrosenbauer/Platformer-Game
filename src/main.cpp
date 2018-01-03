@@ -25,18 +25,21 @@ int main(){
   gfx.font   = SDL_LoadBMP("data/font.bmp");
   SDL_SetColorKey(gfx.font , SDL_SRCCOLORKEY, 0xFFFFFF);
 
-  EventBuffer events;
+  EventBuffer eventsA, eventsB;
   RenderHeap heap;
 
   ObjectVector objects;
   createPlayer(&objects);
 
   bool cont = true;
+  bool mode = true;
   while(cont){
-    getEvents(&events);
-    for(int i = 0; i < events.eventNum; i++){
-      if((events.events[i].eventType     == SDLEVENT)
-       &&(events.events[i].sdlevent.type == SDL_QUIT))
+    EventBuffer* events = mode? &eventsA : &eventsB;
+    EventBuffer* nexts  = mode? &eventsB : &eventsA;
+    getEvents(events);
+    for(int i = 0; i < events->eventNum; i++){
+      if((events->events[i].eventType     == SDLEVENT)
+       &&(events->events[i].sdlevent.type == SDL_QUIT))
           cont = false;
     }
 
@@ -58,12 +61,13 @@ int main(){
     pushHeap(obj6, &heap);
     pushHeap(obj7, &heap);
 
-    updateObject(&objects, &events, &heap);
+    updateObject(&objects, events, nexts, &heap);
     renderHeap(&gfx, &heap);
 
     SDL_Delay(15);
     SDL_Flip(gfx.screen);
     SDL_FillRect(gfx.screen, 0, 0);
+    mode = !mode;
   }
 
 }

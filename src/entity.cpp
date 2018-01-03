@@ -11,13 +11,13 @@
 
 
 // Assumes that player and ent are both part of the same player object
-void updatePlayer(Object* player, Entity* ent, EventBuffer* events){
+void updatePlayer(Object* player, Entity* ent, EventBuffer* events, EventBuffer* nextEvents){
 
   for(int i = 0; i < events->eventNum; i++){
     if(events->events[i].eventType     == SDLEVENT){
       if(events->events[i].sdlevent.type == SDL_KEYDOWN){
         switch(events->events[i].sdlevent.key.keysym.sym){
-          case SDLK_UP    : ent->dy = (player->data.plyd.jmpnum < 5)? -3 : ent->dy; break;
+          case SDLK_UP    : ent->dy = (player->data.plyd.jmpnum < 3)? -3 : ent->dy; break;
           //case SDLK_DOWN  : ent->dy =  1; break;
           case SDLK_RIGHT : ent->dx =      2; break;
           case SDLK_LEFT  : ent->dx =     -2; break;
@@ -76,7 +76,7 @@ void renderPlayer(Entity* ent, RenderHeap* rheap){
 
 
 
-void updateObject(ObjectVector* objs, EventBuffer* events, RenderHeap* rheap){
+void updateObject(ObjectVector* objs, EventBuffer* events, EventBuffer* nextEvents, RenderHeap* rheap){
   for(int i = 0; i < objs->objects.size(); i++){
     Object*     obj  = &objs->objects[i];
     ObjectType  type =  objs->objects[i].type;
@@ -85,7 +85,7 @@ void updateObject(ObjectVector* objs, EventBuffer* events, RenderHeap* rheap){
     switch(type){
       case PLAYER: {
         Entity* e = &objs->entities[entI];
-        updatePlayer(obj, e, events);
+        updatePlayer(obj, e, events, nextEvents);
         renderPlayer(     e, rheap);
       } break;
       default:
