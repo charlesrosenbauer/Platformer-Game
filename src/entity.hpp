@@ -5,6 +5,50 @@
 #include "types.hpp"
 #include "graphics.hpp"
 #include "events.hpp"
+#include <vector>
+#include <cstdint>
+
+
+
+
+
+
+
+
+
+
+struct PlayerData{
+  float tryX, tryY, boost;
+  int8_t jmpnum;
+};
+
+
+
+
+
+
+
+
+
+
+struct EnvironmentData{
+  float h, w;
+  bool isSolid;
+};
+
+
+
+
+
+
+
+
+
+
+union ObjectData{
+  PlayerData      plyd;
+  EnvironmentData envd;
+};
 
 
 
@@ -21,8 +65,8 @@ enum ObjectType{
 
 struct Object{
   ObjectType type;
-  void* data;
-  int   EntityIndex;
+  ObjectData data;
+  int entityIndex;
 };
 
 
@@ -34,9 +78,25 @@ struct Object{
 
 
 
+
 struct Entity{
-  float x, y, dx, dy, jmpnum, boost;
-  Object* parent;
+  float x, y, dx, dy;
+  int parentIndex;
+};
+
+
+
+
+
+
+
+
+
+
+// Things are separated for performance.
+struct ObjectVector{
+  std::vector<Object> objects;
+  std::vector<Entity> entities;
 };
 
 
@@ -49,6 +109,8 @@ struct Entity{
 
 
 void updateObject(Object*, EventBuffer*, RenderHeap*);
+int  createPlayer(ObjectVector*);
+void removeObject(ObjectVector*, int);
 
 
 
