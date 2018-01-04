@@ -32,8 +32,7 @@ struct PlayerData{
 
 
 struct EnvironmentData{
-  float h, w;
-  bool isSolid;
+
 };
 
 
@@ -80,8 +79,9 @@ struct Object{
 
 
 struct Entity{
-  float x, y, dx, dy;
+  float x, y, dx, dy, h, w;
   int parentIndex;
+  bool isSolid;
 };
 
 
@@ -111,7 +111,7 @@ struct ObjectVector{
 void updateObject(ObjectVector*, EventBuffer*, EventBuffer*, RenderHeap*);
 int  createPlayer(ObjectVector*);
 void removeObject(ObjectVector*, int);
-
+Event isCollided  (Entity*, Entity*);
 
 
 

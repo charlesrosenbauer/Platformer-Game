@@ -138,9 +138,48 @@ int createPlayer(ObjectVector* objs){
 
   int objIndex = objs->objects.size()-1;
 
-  Entity entity{0, 0, 0, 0, objIndex};
+  Entity entity{0, 0, 0, 0, 48, 32, objIndex, true};
   objs->entities.push_back(entity);
 
   objs->objects.back().entityIndex = objIndex;
   return objIndex;
+}
+
+
+
+
+
+
+
+
+
+
+Event isCollided(ObjectVector* objs, int entA, int entB){
+  Entity* a = &objs->entities[entA];
+  Entity* b = &objs->entities[entB];
+
+  float aMaxX = a->x + a->w;
+  float aMaxY = a->y + a->h;
+  float bMaxX = b->x + b->w;
+  float bMaxY = b->y + b->h;
+
+  bool isSolid = a->isSolid && b->isSolid;
+
+  if(isSolid        &&
+     (a->x < bMaxX) &&
+     (aMaxX > b->x) &&
+     (a->y < bMaxY) &&
+     (aMaxY > b->y)) {
+
+    Event ret;
+    ret.eventType = GAMEEVENT;
+    ret.gameevent.type = COLLISIONEVENT;
+    ret.gameevent.collisionEvent.entityA = entA;
+    ret.gameevent.collisionEvent.entityB = entB;
+    return ret;
+  }
+
+  Event ret;
+  ret.eventType = VOIDEVENT;
+  return ret;
 }

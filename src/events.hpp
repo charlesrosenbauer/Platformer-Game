@@ -14,8 +14,27 @@
 
 
 
+const uint8_t SIDE_UP = 1;
+const uint8_t SIDE_DN = 2;
+const uint8_t SIDE_LF = 4;
+const uint8_t SIDE_RT = 8;
+
+enum GameEventType{
+  COLLISIONEVENT, DESTROYEVENT
+};
+
 struct GameEvent{
-  int data;     // Add more later
+  GameEventType type;
+  union{
+    struct{
+      int entityA, entityB;
+      uint8_t sides;
+    } collisionEvent;
+
+    struct{
+      int entity;
+    } destroyEvent;
+  };
 };
 
 
@@ -28,7 +47,7 @@ struct GameEvent{
 
 
 enum EventType{
-  SDLEVENT, GAMEEVENT
+  SDLEVENT, GAMEEVENT, VOIDEVENT
 };
 
 struct Event{
@@ -63,6 +82,7 @@ struct EventBuffer{
 
 
 void getEvents(EventBuffer*);
+void pushEvent(EventBuffer*, Event);
 
 
 
