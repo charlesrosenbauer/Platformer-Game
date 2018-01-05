@@ -112,7 +112,7 @@ void updateObject(ObjectVector*, EventBuffer*, EventBuffer*, RenderHeap*);
 int  createPlayer(ObjectVector*);
 void removeObject(ObjectVector*, int);
 Event isCollided  (Entity*, Entity*);
-
+void checkCollisions(ObjectVector*, EventBuffer*);
 
 
 

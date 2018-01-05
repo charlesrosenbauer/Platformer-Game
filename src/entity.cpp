@@ -183,3 +183,23 @@ Event isCollided(ObjectVector* objs, int entA, int entB){
   ret.eventType = VOIDEVENT;
   return ret;
 }
+
+
+
+
+
+
+
+
+
+
+void checkCollisions(ObjectVector* objs, EventBuffer* evts){
+  // This won't scale all too well. Use space partitioning if it gets too slow.
+  // Running some numbers, I figure this will start becoming an issue when we
+  // are handling a couple hundred entities.
+
+  for(int i = 0; i < objs->entities.size(); i++)
+    for(int j = 0; j < objs->entities.size(); j++)
+      if(i != j)
+        pushEvent(evts, isCollided(objs, i, j));
+}

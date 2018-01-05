@@ -63,6 +63,7 @@ int main(){
 
     updateObject(&objects, events, nexts, &heap);
     renderHeap(&gfx, &heap);
+    checkCollisions(&objects, nexts);
 
     SDL_Delay(15);
     SDL_Flip(gfx.screen);
