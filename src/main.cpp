@@ -30,6 +30,7 @@ int main(){
 
   ObjectVector objects;
   createPlayer(&objects);
+  createBlock (&objects, 3, 4);
 
   bool cont = true;
   bool mode = true;

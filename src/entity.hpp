@@ -32,7 +32,7 @@ struct PlayerData{
 
 
 struct EnvironmentData{
-
+  int tile, depth;
 };
 
 
@@ -110,6 +110,7 @@ struct ObjectVector{
 
 void updateObject(ObjectVector*, EventBuffer*, EventBuffer*, RenderHeap*);
 int  createPlayer(ObjectVector*);
+int  createBlock (ObjectVector*, int, int);
 void removeObject(ObjectVector*, int);
 Event isCollided  (Entity*, Entity*);
 void checkCollisions(ObjectVector*, EventBuffer*);

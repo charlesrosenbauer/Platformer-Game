@@ -73,6 +73,19 @@ void renderPlayer(Entity* ent, RenderHeap* rheap){
 
 
 
+void renderBlock(Entity* ent, int tile, int depth, RenderHeap* rheap){
+  RenderObj robj {tile, depth, (int)ent->x, (int)ent->y, false};
+  pushHeap(robj, rheap);
+}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -87,6 +100,10 @@ void updateObject(ObjectVector* objs, EventBuffer* events, EventBuffer* nextEven
         Entity* e = &objs->entities[entI];
         updatePlayer(obj, e, events, nextEvents);
         renderPlayer(     e, rheap);
+      } break;
+      case ENVIRONMENT: {
+        Entity* e = &objs->entities[entI];
+        renderBlock (e, obj->data.envd.tile, obj->data.envd.depth, rheap);
       } break;
       default:
         printf("Unexpected object!\n");
@@ -139,6 +156,30 @@ int createPlayer(ObjectVector* objs){
   int objIndex = objs->objects.size()-1;
 
   Entity entity{0, 0, 0, 0, 48, 32, objIndex, true};
+  objs->entities.push_back(entity);
+
+  objs->objects.back().entityIndex = objIndex;
+  return objIndex;
+}
+
+
+
+
+
+
+
+
+
+
+int createBlock(ObjectVector* objs, int tile, int depth){
+  Object block;
+  block.type = ENVIRONMENT;
+  block.data.envd = EnvironmentData{tile, depth};
+  objs->objects.push_back(block);
+
+  int objIndex = objs->objects.size()-1;
+
+  Entity entity{0, 0, 0, 0, 32, 32, objIndex, true};
   objs->entities.push_back(entity);
 
   objs->objects.back().entityIndex = objIndex;
