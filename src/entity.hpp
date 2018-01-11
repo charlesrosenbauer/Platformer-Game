@@ -17,6 +17,37 @@
 
 
 
+struct Entity{
+  float x, y, dx, dy, h, w;
+  int parentIndex;
+  bool isSolid;
+};
+
+
+
+
+
+
+
+
+
+
+class Object{
+public:
+  int entityIndex;
+  virtual void update(Entity*, EventBuffer*, EventBuffer*, RenderHeap*);
+  Object(int index){ entityIndex = index; }
+};
+
+
+
+
+
+
+
+
+
+
 struct PlayerData{
   float tryX, tryY, boost;
   int8_t jmpnum;
@@ -31,57 +62,26 @@ struct PlayerData{
 
 
 
-struct EnvironmentData{
+class PlayerObj : public Object{
+  float tryX, tryY, boost;
+  int8_t jmpnum;
+  void update(Entity*, EventBuffer*, EventBuffer*, RenderHeap*);
+  PlayerObj(int index) : Object(index) { tryX = 0; tryY = 0; boost = 0; jmpnum =0; }
+};
+
+
+
+
+
+
+
+
+
+
+class EnvironmentObj : public Object{
   int tile, depth;
-};
-
-
-
-
-
-
-
-
-
-
-union ObjectData{
-  PlayerData      plyd;
-  EnvironmentData envd;
-};
-
-
-
-
-
-
-
-
-
-
-enum ObjectType{
-  PLAYER, ENEMY, ENVIRONMENT, TIMER
-};
-
-struct Object{
-  ObjectType type;
-  ObjectData data;
-  int entityIndex;
-};
-
-
-
-
-
-
-
-
-
-
-
-struct Entity{
-  float x, y, dx, dy, h, w;
-  int parentIndex;
-  bool isSolid;
+  void update(Entity*, EventBuffer*, EventBuffer*, RenderHeap*);
+  EnvironmentObj(int index, int t, int d) : Object(index) { tile = t; depth = d; }
 };
 
 
