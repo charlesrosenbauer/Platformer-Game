@@ -62,7 +62,7 @@ int main(){
     pushHeap(obj6, &heap);
     pushHeap(obj7, &heap);
 
-    updateObject(&objects, events, nexts, &heap);
+    updateObjects(&objects, events, nexts, &heap);
     renderHeap(&gfx, &heap);
     checkCollisions(&objects, nexts);
 
